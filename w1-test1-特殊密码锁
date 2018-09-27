@@ -1,0 +1,61 @@
+#include "stdafx.h"
+#include<iostream>
+#include<string.h>
+#include<cstdio>
+using namespace std;
+
+int main()
+{	
+	/*
+	char q = '1';
+	q ^= 1;
+	cout << q << endl;    */
+	char source[30];
+	char tmp[30];
+	char goal[30];
+	int count = 0;
+	int bestcount = 31;
+	cin >> source;//接受一个字符串，遇“空格”、“TAB”、“回车”都结束
+	cin >> goal;
+	//cout << source[0] << endl;
+	//cout << source << endl;
+	//cout << goal << endl;
+	//cout << strlen(source) << endl;
+
+
+	int N = strlen(source); //按钮个数
+	for (int m = 0; m < 2; m++) //m=0表示第一个位置不动，m=1表示第一个位置动
+	{	
+		memcpy(tmp, source, sizeof(source));
+		count = m;
+		if (m == 1)
+		{
+			tmp[0] ^= 1;
+			if (N > 1)
+				tmp[1] ^= 1;
+		}
+		for (int n = 1; n < N; n++)
+		{
+			if (tmp[n-1] != goal[n-1])
+			{
+				count++;
+				tmp[n - 1] ^= 1;
+				tmp[n] ^= 1;
+				if(n<N-1)
+					tmp[n + 1] ^= 1;
+				//下一行用于调试
+				//cout << "m = " << m << ',' << n << "time: " << tmp <<" count is "<<count<< endl;;
+			}
+		}
+		if (tmp[N - 1] == goal[N - 1])
+		{
+			if (bestcount > count)
+				bestcount = count;
+		}
+		
+	}
+	if (bestcount == 31)
+		cout << "impossible" << endl;
+	else
+		cout << bestcount<<endl;
+}
