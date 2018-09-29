@@ -1,0 +1,41 @@
+#include "stdafx.h"
+#include<iostream>
+#include<string.h>
+#include<cstdio>
+using namespace std;
+
+//N皇后 设定N<=100
+int N;
+int queenPos[100];
+
+void Queen(int k)
+{
+	if (k == N)
+	{
+		for (int i = 0; i < N; i++)
+			cout << queenPos[i] + 1 << ' ';
+		cout << endl;
+		return;
+	}
+	for (int i = 0; i < N; i++) //i为第k行皇后所在的列
+	{
+		int j;
+		for (j = 0; j < k; j++) //j为第k行之前的行
+		{
+			if (i == queenPos[j] || abs(k - j) == abs(i - queenPos[j]))
+				break;
+		}
+		if (j == k)  //j==k的时候就不进入循环了，但是值已经为k了
+		{
+			queenPos[k] = i;
+			Queen(k + 1);
+		}
+	}
+}
+
+int main()
+{
+	cin >> N;
+	Queen(0);
+	return 0;
+}
