@@ -1,0 +1,41 @@
+#include "stdafx.h"
+#include<iostream>
+#include<string.h>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+
+char str[6];
+int L; //str长度
+char list[6]; //要重新排列的list
+bool used[6] = {false};
+
+void Arrange(int n)  //n表示要确定的第n位,从左往右数
+{
+	if (n == L)
+	{
+		cout << list << endl;
+		return;
+	}
+	for (int i = 0; i < L; i++)
+	{
+		if (!used[i])
+		{
+			used[i] = true;
+			list[n] = str[i];
+			Arrange(n+1);
+			used[i] = false;
+		}
+	}
+}
+
+
+
+int main()
+{
+	cin >> str;
+	L = strlen(str);
+	sort(str, str + L);
+	Arrange(0);
+	return 0;
+}
