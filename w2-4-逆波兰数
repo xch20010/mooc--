@@ -1,0 +1,27 @@
+//范例输入： * + 2 3 - 5 1
+#include "stdafx.h"
+#include<iostream>
+#include<string.h>
+#include<cstdio>
+using namespace std;
+
+double nibolan()
+{
+	char s[30];
+	cin >> s;
+	switch (s[0])
+	{
+		case '+': return nibolan() + nibolan();
+		case '-': return nibolan() - nibolan();
+		case '*': return nibolan() * nibolan();
+		case '/': return nibolan() / nibolan();
+		default:  
+			return atof(s);
+			break;
+	}
+}
+
+int main()
+{
+	cout << nibolan() << endl;
+}
