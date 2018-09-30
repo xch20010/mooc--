@@ -1,0 +1,48 @@
+#include "stdafx.h"
+#include<iostream>
+#include<string.h>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+
+int GetBit(int n, int i)
+{
+	return (n >> i) & 1;
+}
+
+void fenjie(int n)
+{
+	bool first=true;  //表示是否为2的幂次
+	for (int i = 15; i >= 0; i--)
+	{
+		if (GetBit(n, i))
+		{
+			if (!first)
+			{
+				cout << '+';
+			}
+			else
+				first = false;
+			if (i == 0)
+				cout << "2(0)";
+			else if (i == 1)
+				cout << "2";
+			else
+			{
+				cout << "2(";
+				fenjie(i);
+				cout << ")";
+			}
+		}
+	}
+}
+
+int main()
+{
+	int n;
+	cout << "input the number:"<< endl;
+	cin >> n;
+	//printf("%d \n", int(pow(2, 4)));
+	fenjie(n);
+	cout << endl;
+}
