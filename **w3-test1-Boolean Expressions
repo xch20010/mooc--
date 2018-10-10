@@ -1,0 +1,117 @@
+#include "stdafx.h"
+#include<iostream>
+#include<string.h>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+//样例输入
+//( V | V ) & F & ( F| V)
+//!V | V & V & !F & (F | V ) & (!F | F | !V & V)
+//(F&F|V|!V&!F&!(F|F&V))
+//表达式:项&项、项|项
+//项：！因子
+//因子：（表达式&表达式）、（表达式 | 表达式）、或者是单独的& | ！组成
+bool exp();
+bool term();
+bool factor();
+char s[1000] = { 0 };
+int m = 0;
+
+bool exp()
+{
+	bool result = term();
+	bool more = true;
+	while (more)
+	{
+		char c = s[m];//相当于cin.peek()只看不取走 
+		if (c == '&' || c == '|')
+		{
+			m++;//取走 
+			bool value = term();
+			if (c == '&')
+				result = result&value;
+			if (c == '|')
+				result = result | value;
+		}
+		else
+			more = false;
+	}
+	return result;
+}
+
+bool term()//！的运算级更高，把他看为一项 
+{
+	bool result;
+	char c = s[m];
+	if (c == '!')
+	{
+		m++;
+		result = !factor();
+	}
+	else
+	{
+		result = factor();
+	}
+	return result;
+}
+
+
+bool factor()//单独的&|！或者（）看成一个因子 
+{
+	bool result;
+	char c = s[m];
+	if (c == '(')
+	{
+		m++;
+		result = exp();
+		m++;
+	}
+	else if (c == 'V')
+	{
+		result = true;
+		m++;
+	}
+	else if (c == 'F')
+	{
+		result = false;
+		m++;
+	}
+	else if (c == '!')
+	{
+		result = term();
+	}
+	return result;
+}
+
+
+void jieguo()
+{
+	int k = 0;
+	while (cin.getline(s, 1000))
+	{
+		char t[1001] = { 0 };
+		int len = strlen(s);
+		for (int i = 0, k = 0; i < len; ++i)
+		{
+			if (s[i] != ' ')
+				t[k++] = s[i];
+		}
+		len = strlen(t);
+		for (int i = 0; i < len; ++i)
+		{
+			s[i] = t[i];
+		}
+		s[len] = '\0';
+		//去除s[]中的空格 
+		cout << "Expression " << ++k << ": " << (exp() ? "V" : "F") << endl;
+		//初始化 
+		m = 0;
+		memset(s, 0, 1000);
+	}
+}
+
+int main()
+{
+	jieguo();
+	return 0;
+}
