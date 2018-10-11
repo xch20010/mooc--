@@ -1,0 +1,42 @@
+描述 
+给定一个数组，统计前k大的数并且把这k个数从大到小输出。
+
+输入 
+第一行包含一个整数n，表示数组的大小。n < 100000。 
+第二行包含n个整数，表示数组的元素，整数之间以一个空格分开。每个整数的绝对值不超过100000000。 
+第三行包含一个整数k。k < n。
+
+输出 
+从大到小输出前k大的数，每个数一行。
+
+样例输入 
+10 
+4 5 6 9 8 7 1 2 3 0 
+5
+
+样例输出 
+9 
+8 
+7 
+6 
+5
+
+***************************************************************
+#include "stdafx.h"
+#include<algorithm>
+#include <cstdio>
+#include <iostream>
+using namespace std;
+
+int n, a[100000010], k;
+bool cmp(int x, int y) {
+	return x>y;
+}
+int main() {
+	scanf_s("%d", &n);
+	for (int i = 0; i<n; i++)scanf_s("%d", &a[i]);
+	scanf_s("%d", &k);
+	sort(a, a + n, cmp);
+	for (int i = 0; i<k; i++)printf("%d\n", a[i]);
+	return 0;
+}
